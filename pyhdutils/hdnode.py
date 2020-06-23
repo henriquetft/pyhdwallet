@@ -248,7 +248,7 @@ class HDNode:
                              network=network)
 
         return self.__class__(derived, chaincode=ir, depth=self.depth + 1,
-                              index=self.index,
+                              index=index,
                               parent_fingerprint=int.from_bytes(
                                   self.get_fingerprint(), "big"))
 
