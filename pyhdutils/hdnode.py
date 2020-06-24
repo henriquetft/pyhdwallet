@@ -263,6 +263,25 @@ class HDNode:
         """
         return self.derive(index + HARDENED_BIT)
 
+    def derive_path(self, path):
+        """ Child Extended Key Derivation.
+        Given the derivation path in the format m/x/x' (e.g. m/0/1'/0) computes
+        the corresponding child extended key.
+
+        :param index: derivation path as string (e.g. m/0/1'/0)
+        :return: HDNode child
+        """
+        obj = self
+        indexes = path.split("/")[1:]
+        for i in indexes:
+            if i[-1:] in ["'", 'H', 'h']:
+                num = int(i[:-1])
+                obj = obj.derive_hardened(num)
+            else:
+                num = int(i)
+                obj = obj.derive(num)
+        return obj
+
     @classmethod
     def from_seed(cls, seed_bytes, network):
         """
