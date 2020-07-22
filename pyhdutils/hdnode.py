@@ -6,112 +6,11 @@ import base58
 from pyhdutils import hashutils
 from pyhdutils.networks import ALL_NETWORKS
 from pyhdutils import ecutils
+from pyhdutils.ecpair import ECPair
 
 BITCOIN_SEED = "Bitcoin seed".encode()
 HARDENED_BIT = 0x80000000
-
-
-class ECPair:
-    """
-    Elliptic Curve Cryptography key pair
-    """
-    def __init__(self, privkey_buffer, pubkey_buffer=None, network=None):
-        """
-        Creates a new ECPair object
-
-        :param privkey_buffer: bytes obj. with the private key (32 bytes)
-        :param pubkey_buffer: bytes obj. the compressed public key (33 bytes)
-        :param network: Network object (e.g. bitcoin mainnet)
-        """
-        self.__privkey_buf = None
-        self.__pubkey_buf = None
-        if not network:
-            raise ValueError("Unspecified network")
-        if privkey_buffer:
-            if not isinstance(privkey_buffer, bytes) or \
-                    len(privkey_buffer) != 32:
-                raise ValueError("Invalid private key")
-            self.__privkey_buf = privkey_buffer
-        if pubkey_buffer:
-            if ecutils.is_valid_pubkey(pubkey_buffer):
-                raise ValueError("Invalid format of public key")
-            self.__pubkey_buf = pubkey_buffer
-        self.__network = network
-
-    @property
-    def pubkey_buffer(self):
-        """
-        Returns the compressed public key (33 bytes)
-        :return: bytes object representing the public key
-        """
-        if self.__pubkey_buf is None:
-            self.__pubkey_buf = ecutils.get_pubkey_from_privkey(self.privkey)
-        return self.__pubkey_buf
-
-    @property
-    def privkey_buffer(self):
-        """
-        Returns the private key as bytes
-        :return: bytes object representing the private key
-        """
-        return self.__privkey_buf
-
-    @property
-    def privkey(self):
-        """
-        Returns the private key as a 256 bit integer
-        :return: 256 bit int representing private key
-        """
-        if self.__privkey_buf:
-            return int.from_bytes(self.__privkey_buf, "big")
-        return None
-
-    @property
-    def network(self):
-        """
-        Returns the network associated with this key pair
-        :return: Network object
-        """
-        return self.__network
-
-    @classmethod
-    def from_wif(cls, string, network):
-        """
-        Import keys from WIF format.
-
-        :param string:
-        :param network:
-        :return: New object containing the imported private key
-        """
-        raise NotImplementedError
-
-    def to_wif(self):
-        """
-        Export private key to WIF (Wallet Export Format)
-        :return:
-        """
-        if self.__privkey_buf is None:
-            raise ValueError("No private key")
-        raise NotImplementedError
-
-    def get_address(self):
-        """
-        Converts the public key to a bitcoin address (P2PKH address)
-        :return: Address as string (P2PKH address)
-        """
-        return base58.b58encode_check(
-            self.network.pub_key_hash +
-            hashutils.hash160(self.pubkey_buffer)).decode()
-
-    def __eq__(self, other):
-        return self.privkey == other.privkey and \
-               self.pubkey_buffer == other.pubkey_buffer and \
-               self.network == other.network
-
-    def __str__(self):
-        return "{} (privKey={}, pubKey={}, network={})" \
-            .format(self.__class__.__name__, self.privkey,
-                    self.pubkey_buffer, self.__network)
+SUPPORTED_NETWORKS = ALL_NETWORKS[:]
 
 
 class HDNode:
@@ -120,8 +19,6 @@ class HDNode:
 
     Each node has extended keys allowing derivation of children nodes
     """
-
-    SUPPORTED_NETWORKS = ALL_NETWORKS[:]
 
     def __init__(self, keypair, chaincode, depth=0, index=0,
                  parent_fingerprint=0x00000000):
@@ -142,7 +39,7 @@ class HDNode:
         """
         pub_key_buffer = self.keypair.pubkey_buffer
         # removing private key
-        new_ecpair = ECPair(None, pub_key_buffer, self.keypair.network)
+        new_ecpair = ECPair(None, pub_key_buffer, network=self.keypair.network)
         return self.__class__(new_ecpair, self.chain_code, self.depth,
                               self.index, self.parent_fingerprint)
 
@@ -307,7 +204,7 @@ class HDNode:
         if len(buffer) != 78:
             raise ValueError("Invalid argument")
         version = int.from_bytes(buffer[:4], "big")
-        n = [x for x in cls.SUPPORTED_NETWORKS if
+        n = [x for x in SUPPORTED_NETWORKS if
              version in [x.version_pub, x.version_priv]]
         if not n:
             raise Exception("Network not supported")

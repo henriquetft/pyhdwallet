@@ -16,24 +16,25 @@ def _point(secret):
     return public_key_point
 
 
-def _pubkey_point_to_bytes(public_key_point):
+def _pubkey_point_to_bytes(public_key_point, compressed=True):
     """
     Converts public key point to bytes (compressed format)
     :param public_key_point:
     :return: public key in compressed format
     """
+    arg_compr = 'compressed' if compressed else 'uncompressed'
     pki = VerifyingKey.from_public_point(public_key_point, curve=SECP256k1)
-    pub_key = pki.to_string(encoding='compressed')
+    pub_key = pki.to_string(encoding=arg_compr)
     return pub_key
 
 
 def _pubkey_point_from_bytes(pubkey_buffer):
     """
     Returns the public key point from public key in compressed format
-    :param pub_key: public key in compressed format
+    :param pub_key: public key as bytes
     :return:
     """
-    assert isinstance(pubkey_buffer, bytes) and len(pubkey_buffer) == 33
+    assert isinstance(pubkey_buffer, bytes)
     vk_obj = VerifyingKey.from_string(pubkey_buffer, curve=SECP256k1)
     point_pk = vk_obj.pubkey.point
     return point_pk
@@ -48,7 +49,7 @@ def combine_pubkeys(secret, pubkey_buffer):
     :return: bytes of compressed public key
     """
     assert isinstance(secret, int)
-    assert isinstance(pubkey_buffer, bytes) and len(pubkey_buffer) == 33
+    assert isinstance(pubkey_buffer, bytes)
     point_pubkey = _pubkey_point_from_bytes(pubkey_buffer)
     k = _point(secret) + point_pubkey
     if k is ellipticcurve.INFINITY:
@@ -56,22 +57,31 @@ def combine_pubkeys(secret, pubkey_buffer):
     return _pubkey_point_to_bytes(k)
 
 
-def get_pubkey_from_privkey(secret):
+def get_pubkey_from_privkey(secret, compressed=True):
     """
     Returns a compressed public key from a private key
     :param secret: private key (32-bytes int)
-    :return: compressed public key
+    :return: public key as bytes
     """
     assert isinstance(secret, int)
-    return _pubkey_point_to_bytes(_point(secret))
+    return _pubkey_point_to_bytes(_point(secret), compressed)
 
 
-def is_valid_pubkey(pubkey_buffer):
+def is_compressed_key(pubkey_buffer):
     """
-    Validate public key
-    :param pubkey_buffer:
+    Checks whether or not a public key is compressed
+    :param pubkey_buffer: public keys as bytes obj.
     :return:
     """
-    return not isinstance(pubkey_buffer, bytes) or \
-           len(pubkey_buffer) != 33 or \
-           pubkey_buffer[0:1] not in [b"\x02", b"\x03"]
+    if not isinstance(pubkey_buffer, bytes):
+        raise ValueError
+    length = len(pubkey_buffer)
+    if length not in [33, 65]:
+        raise ValueError("Invalid public key")
+    if length == 33:
+        if pubkey_buffer[0:1] not in [b"\x02", b"\x03"]:
+            raise ValueError("Invalid public key")
+    if length == 65:
+        if pubkey_buffer[0:1] != b"\x04":
+            raise ValueError("Invalid public key")
+    return True if length == 33 else False

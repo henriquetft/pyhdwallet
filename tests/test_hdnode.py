@@ -1,9 +1,11 @@
 import unittest
 from binascii import unhexlify
 from pyhdutils.hdnode import HDNode
+from pyhdutils.ecpair import ECPair
 from pyhdutils.networks import BITCOIN_MAINNET
 
 unittest.TestLoader.sortTestMethodsUsing = None
+
 
 # https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki#test-vectors
 TEST_VECTOR_1 = {
@@ -72,7 +74,7 @@ TEST_VECTOR_3 = {
 }
 
 class TestVector(unittest.TestCase):
-    LOG = True
+    LOG = False
     def execute_test(self, cases, path, node):
         expected_xpub = cases[path]["xpub"]
         expected_xpriv = cases[path]["xpriv"]
@@ -112,6 +114,27 @@ class TestHDNode(unittest.TestCase):
             0).to_base58()
         path2 = self.hdnode_from_seed.derive_path("m/0/1'/0").to_base58()
         self.assertEqual(path1, path2)
+
+    def test_derive_neutered(self):
+        path1 = self.hdnode_from_seed.derive(0).neutered().derive(1).to_base58()
+        path2 = self.hdnode_from_seed.derive_path("m/0/1").neutered().to_base58()
+        self.assertEqual(path1, path2)
+
+    def test_derive_neutered_from_hardened(self):
+        with self.assertRaises(ValueError):
+            self.hdnode_from_seed.derive(0).neutered().derive_hardened(1)
+
+    def test_constructor_invalid_fingerprint(self):
+        PRIVKEY_HEXA = "4ccbf2a1c6ee9a5106cb19c6be343947701a4e4acb2c4311f5"\
+                       "a10836109711a1"
+        number = int(PRIVKEY_HEXA, 16)
+        ecpair = ECPair(number)
+        with self.assertRaises(ValueError):
+            HDNode(ecpair, chaincode=b'\x1a\xbe\xc1YTQ\xa3\xe7\xb5\xfet' \
+                                     b'\xad5)\x06\x99\x81x,R\xd7L\x1e$\x10' \
+                                     b'\xc4\xf5\x1e\xa2\x08oO',
+                   depth=0, index=0, parent_fingerprint=123)
+
 
 
 class TestHDNodeVector1(TestVector):
