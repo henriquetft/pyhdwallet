@@ -84,4 +84,4 @@ def is_compressed_key(pubkey_buffer):
     if length == 65:
         if pubkey_buffer[0:1] != b"\x04":
             raise ValueError("Invalid public key")
-    return True if length == 33 else False
+    return length == 33

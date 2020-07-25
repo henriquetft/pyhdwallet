@@ -1,16 +1,17 @@
 """
-Main module that contains HDNode class
+Module to deal with Hierarchical Deterministic (HD) tree according to BIP32
+specification (https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki)
 """
 
 import base58
 from pyhdutils import hashutils
-from pyhdutils.networks import ALL_NETWORKS
 from pyhdutils import ecutils
+from pyhdutils.networks import Network
 from pyhdutils.ecpair import ECPair
 
+# basic definitions
 BITCOIN_SEED = "Bitcoin seed".encode()
 HARDENED_BIT = 0x80000000
-SUPPORTED_NETWORKS = ALL_NETWORKS[:]
 
 
 class HDNode:
@@ -71,6 +72,10 @@ class HDNode:
             buffer += self.keypair.privkey_buffer
         assert len(buffer) == 78
         return base58.b58encode_check(buffer).decode()
+
+    def get_keypair(self):
+        """ Returns the keypair """
+        return self.keypair
 
     def get_address(self):
         """
@@ -204,7 +209,7 @@ class HDNode:
         if len(buffer) != 78:
             raise ValueError("Invalid argument")
         version = int.from_bytes(buffer[:4], "big")
-        n = [x for x in SUPPORTED_NETWORKS if
+        n = [x for x in Network.get_supported_networks() if
              version in [x.version_pub, x.version_priv]]
         if not n:
             raise Exception("Network not supported")

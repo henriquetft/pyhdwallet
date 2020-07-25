@@ -2,7 +2,6 @@
 Cryptocurrency network definitions
 """
 
-
 class Network:
     """
     Represents a cryptocurrency network (e.g. Bitcoin Mainnet)
@@ -14,6 +13,22 @@ class Network:
         self.version_pub = version_pub
         self.pub_key_hash = pub_key_hash
         self.wif = wif
+
+    @classmethod
+    def get_supported_networks(cls):
+        """
+        Returns the list of supported networks
+        :return: list of supported networks
+        """
+        return cls.NETWORK_LIST
+
+    @classmethod
+    def set_supported_networks(cls, network_list):
+        """
+        Sets up the list of supported networks
+        :param network_list:
+        """
+        cls.NETWORK_LIST = network_list
 
     def __eq__(self, other):
         return self.description == other.description and \
@@ -39,4 +54,4 @@ BITCOIN_TESTNET = Network(description="Bitcoin Testnet",
                           wif=b"\xEF")
 
 # supported networks
-ALL_NETWORKS = [BITCOIN_MAINNET, BITCOIN_TESTNET]
+Network.set_supported_networks([BITCOIN_MAINNET, BITCOIN_TESTNET])

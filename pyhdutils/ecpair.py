@@ -1,11 +1,11 @@
-""" ecpair module """
+""" Elliptic Curve Cryptography module """
 
 import base58
 from pyhdutils import hashutils
-from pyhdutils.networks import ALL_NETWORKS, BITCOIN_MAINNET
 from pyhdutils import ecutils
+from pyhdutils.networks import Network
 
-SUPPORTED_NETWORKS = ALL_NETWORKS[:]
+DEFAULT_NETWORK = Network.get_supported_networks()[0]
 
 
 class ECPair:
@@ -14,7 +14,7 @@ class ECPair:
     """
 
     def __init__(self, privkey, pubkey_buffer=None, compressed=True,
-                 network=BITCOIN_MAINNET):
+                 network=DEFAULT_NETWORK):
         """
         Creates a new ECPair object.
 
@@ -34,9 +34,9 @@ class ECPair:
         self.__pubkey_buf = None
 
         # basic validations
-        if not ((privkey is None) ^ (pubkey_buffer is None)):
+        if not (privkey is None) ^ (pubkey_buffer is None):
             raise ValueError("Pass public key or private key, not both")
-        if not network or network not in SUPPORTED_NETWORKS:
+        if not network or network not in Network.get_supported_networks():
             raise ValueError("None or unsupported network")
         if compressed is not None and not isinstance(compressed, bool):
             raise ValueError("Compressed parameter should be bool or None")
@@ -128,19 +128,16 @@ class ECPair:
             privkey = buffer[1:-1]
         else:
             privkey = buffer[1:]
-        net = [x for x in SUPPORTED_NETWORKS if version in [x.wif]]
-        if not net:
+        n = [x for x in Network.get_supported_networks() if version in [x.wif]]
+        if not n:
             raise ValueError("Network not supported")
 
         return cls(privkey, pubkey_buffer=None,
-                   compressed=compressed, network=net[0])
+                   compressed=compressed, network=n[0])
 
     def to_wif(self):
         """
         Exports the private key as WIF (Wallet Import Format)
-        :param compressed: indicates if the private key is used to create a
-                           compressed public key. When None, this parameter
-                           assumes the value currently set in this object
         :return: string corresponding to the private Key as WIF
         """
         # WIF = base58check encode ([version byte][private key][checksum])

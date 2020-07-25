@@ -3,6 +3,11 @@ from binascii import unhexlify
 from pyhdutils.hdnode import HDNode
 from pyhdutils.ecpair import ECPair
 from pyhdutils.networks import BITCOIN_MAINNET
+from unittest import mock
+import random
+from pyhdutils import ecutils
+from pyhdutils import hashutils
+
 
 unittest.TestLoader.sortTestMethodsUsing = None
 
@@ -74,6 +79,7 @@ TEST_VECTOR_3 = {
 }
 
 class TestVector(unittest.TestCase):
+    """ Base class to test BIP32 test vectors """
     LOG = False
     def execute_test(self, cases, path, node):
         expected_xpub = cases[path]["xpub"]
@@ -88,6 +94,7 @@ class TestVector(unittest.TestCase):
             print("\text xpub: ", xpub)
             print("\text xpriv: ", xpriv)
 
+
 class TestHDNode(unittest.TestCase):
     def setUp(self):
         seed = b'5636fa7760cca11a5ef1212c56fe0f5e576004e371b88a53780994ece7b6fe8f6923bd5ba3ab0688b0dbb865dbfef37894a39bf2ce9b11315c5413d510a1eee1'
@@ -98,10 +105,28 @@ class TestHDNode(unittest.TestCase):
     def test_creation(self):
         self.assertEqual(self.hdnode_from_seed, self.hdnode_from_base58)
 
+    def test_creation_xpub(self):
+        hdnode = HDNode.from_base58("xpub6DF8uhdarytz3FWdA8TvFSvvAh8dP3283MY7p2V4SeE2wyWmG5mg5EwVvmdMVCQcoNJxGoWaU9DCWh89LojfZ537wTfunKau47EL2dhHKon")
+        self.assertIsInstance(hdnode, HDNode)
+
     def test_fromSeed(self):
         self.assertIsNotNone(self.hdnode_from_seed)
         self.assertEqual(self.hdnode_from_seed.get_address(), "17avao5dfvwuq1ugvo5wN7sUSNUjMa93BX")
         self.assertEqual(self.hdnode_from_seed.to_base58(), "xprv9s21ZrQH143K2KoRMrztFLQfsKWMADqGKYXSoPRpLapf13Q4cMcFWJeNangQ2XRucXfkoQscg4dk7w3vtfStFZNM1z4DnxfRh4XYJkT1gAg")
+
+    def test_address(self):
+        self.assertEqual(self.hdnode_from_base58.get_address(), '17avao5dfvwuq1ugvo5wN7sUSNUjMa93BX')
+
+    def test_keypair(self):
+        self.assertIsInstance(self.hdnode_from_base58.get_keypair().privkey, int)
+        self.assertIsInstance(self.hdnode_from_base58.get_keypair().pubkey_buffer, bytes)
+
+    def test_abc(self):
+        with self.assertRaises(Exception):
+            HDNode.from_base58("4Q1JnNwEpCghKERZ8esUgQxtMpncJ5YUBJx75PGQ2nCJNGXGVEN1Me6KJ6zaXcczxWSg9DmyzLxXFkXSSwMSPY4WL4sDAer2Cifdhum6LCsHjRxm")
+
+    def test_string(self):
+        self.assertIsInstance(str(self.hdnode_from_base58), str)
 
     def test_derive(self):
         path1 = self.hdnode_from_seed.derive(0).derive(1).to_base58()
@@ -120,18 +145,22 @@ class TestHDNode(unittest.TestCase):
         path2 = self.hdnode_from_seed.derive_path("m/0/1").neutered().to_base58()
         self.assertEqual(path1, path2)
 
+    def test_from_base58_invalid_arg(self):
+        with self.assertRaises(ValueError):
+            self.hdnode_from_base58 = HDNode.from_base58("5FQT7TdYBPPpYJVsyfmdBw2e9wf8GtJnMToZf7Pun6LH5EAaa8KkQXGQQFygE2qWAdYzRiD7GPf8n1BmPGPVshLUazWMoacKhwaXH87u11ZfwM9TG")
+
     def test_derive_neutered_from_hardened(self):
         with self.assertRaises(ValueError):
             self.hdnode_from_seed.derive(0).neutered().derive_hardened(1)
 
     def test_constructor_invalid_fingerprint(self):
-        PRIVKEY_HEXA = "4ccbf2a1c6ee9a5106cb19c6be343947701a4e4acb2c4311f5"\
+        privkey_hexa = "4ccbf2a1c6ee9a5106cb19c6be343947701a4e4acb2c4311f5"\
                        "a10836109711a1"
-        number = int(PRIVKEY_HEXA, 16)
+        number = int(privkey_hexa, 16)
         ecpair = ECPair(number)
         with self.assertRaises(ValueError):
-            HDNode(ecpair, chaincode=b'\x1a\xbe\xc1YTQ\xa3\xe7\xb5\xfet' \
-                                     b'\xad5)\x06\x99\x81x,R\xd7L\x1e$\x10' \
+            HDNode(ecpair, chaincode=b'\x1a\xbe\xc1YTQ\xa3\xe7\xb5\xfet'
+                                     b'\xad5)\x06\x99\x81x,R\xd7L\x1e$\x10'
                                      b'\xc4\xf5\x1e\xa2\x08oO',
                    depth=0, index=0, parent_fingerprint=123)
 
@@ -214,6 +243,53 @@ class TestHDNodeVector3(TestVector):
         """ Test Chain m/0H """
         self.execute_test(TEST_VECTOR_3, "m/0H", self.node)
 
+
+class TestHDNodeEdgeCases(TestVector):
+    def setUp(self):
+        self.orig = hashutils.hmac_sha512
+        self.orig3 = ecutils.combine_pubkeys
+        seed = b'5636fa7760cca11a5ef1212c56fe0f5e576004e371b88a53780994ece7b6fe8f6923bd5ba3ab0688b0dbb865dbfef37894a39bf2ce9b11315c5413d510a1eee1'
+        seed_buffer = unhexlify(seed)
+        self.hdnode_from_seed = HDNode.from_seed(seed_buffer, BITCOIN_MAINNET)
+        self.hdnode_from_base58 = HDNode.from_base58("xprv9s21ZrQH143K2KoRMrztFLQfsKWMADqGKYXSoPRpLapf13Q4cMcFWJeNangQ2XRucXfkoQscg4dk7w3vtfStFZNM1z4DnxfRh4XYJkT1gAg")
+
+    def test_parse256_il_greater_order(self):
+        hdnode = self.hdnode_from_seed.derive_path("m/0")
+        with mock.patch('pyhdutils.hashutils.hmac_sha512', self.__hmac_sha512_mock_parse256_il_order):
+            hdnode = hdnode.derive(1)
+        self.assertEqual(hdnode.index, 2)
+
+    def test_privkey_equals_zero(self):
+        hdnode = self.hdnode_from_seed.derive_path("m/0")
+        with mock.patch('pyhdutils.hashutils.hmac_sha512', self.__hmac_sha512_mock_privkey_equals_zero):
+            hdnode = hdnode.derive(1)
+        self.assertEqual(hdnode.index, 2)
+
+    def test_combine_keys_point_infinity(self):
+        hdnode = self.hdnode_from_seed.derive_path("m/0").neutered()
+        with mock.patch('pyhdutils.ecutils.combine_pubkeys', self.__combine_pubkeys_mock_point_infinity):
+            hdnode = hdnode.derive(1)
+        self.assertEqual(hdnode.index, 2)
+
+    def __combine_pubkeys_mock_point_infinity(self, secret, pubkey_buffer):
+        if secret == 43115047873401602166199352462699611922976203555531369294588215819284489537671:
+            raise ValueError("Point at infinity")
+        return self.orig3(secret, pubkey_buffer)
+
+    def __hmac_sha512_mock_parse256_il_order(self, key, msg):
+        if msg == b'\x02\x01W\xa6\xe8_\xf3\xd9\xd1\x913\xbbb\x88"\xa5\xf9\x7f\x1b\xb2\xc7\xeb\xe9K\xa5\x17\xff\x12\xa9\xe9e\x1f\x10\x00\x00\x00\x01':
+            ppp = ecutils.ORDER.to_bytes(32, "big")
+            ppp += bytes(random.getrandbits(8) for _ in range(32))
+            return ppp
+        return self.orig(key, msg)
+
+    def __hmac_sha512_mock_privkey_equals_zero(self, key, msg):
+        if msg == b'\x02\x01W\xa6\xe8_\xf3\xd9\xd1\x913\xbbb\x88"\xa5\xf9\x7f\x1b\xb2\xc7\xeb\xe9K\xa5\x17\xff\x12\xa9\xe9e\x1f\x10\x00\x00\x00\x01':
+            dif = 71912227035807857345452825380777561902806637458756573929746293318995064139538
+            ppp = dif.to_bytes(32, "big")
+            ppp += bytes(random.getrandbits(8) for _ in range(32))
+            return ppp
+        return self.orig(key, msg)
 
 if __name__ == '__main__':
     unittest.main()
