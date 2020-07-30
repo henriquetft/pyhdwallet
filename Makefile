@@ -1,8 +1,8 @@
-# Makefile for pyhdutils
+# Makefile for pyhdwallet
 
 .PHONY: test lint coverage
 
-PACKAGE=pyhdutils
+PACKAGE=pyhdwallet
 RUNTEST=python -m unittest -b -v
 
 test:

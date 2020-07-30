@@ -4,10 +4,10 @@ specification (https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki)
 """
 
 import base58
-from pyhdutils import hashutils
-from pyhdutils import ecutils
-from pyhdutils.networks import Network
-from pyhdutils.ecpair import ECPair
+from pyhdwallet import hashutils
+from pyhdwallet import ecutils
+from pyhdwallet.networks import Network
+from pyhdwallet.ecpair import ECPair
 
 # basic definitions
 BITCOIN_SEED = "Bitcoin seed".encode()

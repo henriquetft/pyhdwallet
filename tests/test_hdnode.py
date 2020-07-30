@@ -1,12 +1,12 @@
 import unittest
 from binascii import unhexlify
-from pyhdutils.hdnode import HDNode
-from pyhdutils.ecpair import ECPair
-from pyhdutils.networks import BITCOIN_MAINNET
+from pyhdwallet.hdnode import HDNode
+from pyhdwallet.ecpair import ECPair
+from pyhdwallet.networks import BITCOIN_MAINNET
 from unittest import mock
 import random
-from pyhdutils import ecutils
-from pyhdutils import hashutils
+from pyhdwallet import ecutils
+from pyhdwallet import hashutils
 
 
 unittest.TestLoader.sortTestMethodsUsing = None
@@ -255,19 +255,19 @@ class TestHDNodeEdgeCases(TestVector):
 
     def test_parse256_il_greater_order(self):
         hdnode = self.hdnode_from_seed.derive_path("m/0")
-        with mock.patch('pyhdutils.hashutils.hmac_sha512', self.__hmac_sha512_mock_parse256_il_order):
+        with mock.patch('pyhdwallet.hashutils.hmac_sha512', self.__hmac_sha512_mock_parse256_il_order):
             hdnode = hdnode.derive(1)
         self.assertEqual(hdnode.index, 2)
 
     def test_privkey_equals_zero(self):
         hdnode = self.hdnode_from_seed.derive_path("m/0")
-        with mock.patch('pyhdutils.hashutils.hmac_sha512', self.__hmac_sha512_mock_privkey_equals_zero):
+        with mock.patch('pyhdwallet.hashutils.hmac_sha512', self.__hmac_sha512_mock_privkey_equals_zero):
             hdnode = hdnode.derive(1)
         self.assertEqual(hdnode.index, 2)
 
     def test_combine_keys_point_infinity(self):
         hdnode = self.hdnode_from_seed.derive_path("m/0").neutered()
-        with mock.patch('pyhdutils.ecutils.combine_pubkeys', self.__combine_pubkeys_mock_point_infinity):
+        with mock.patch('pyhdwallet.ecutils.combine_pubkeys', self.__combine_pubkeys_mock_point_infinity):
             hdnode = hdnode.derive(1)
         self.assertEqual(hdnode.index, 2)
 

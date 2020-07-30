@@ -1,9 +1,9 @@
 import unittest
 import random
 import base58
-from pyhdutils.ecpair import ECPair
-from pyhdutils.hashutils import sha256
-from pyhdutils.networks import Network, BITCOIN_TESTNET
+from pyhdwallet.ecpair import ECPair
+from pyhdwallet.hashutils import sha256
+from pyhdwallet.networks import Network, BITCOIN_TESTNET
 
 unittest.TestLoader.sortTestMethodsUsing = None
 

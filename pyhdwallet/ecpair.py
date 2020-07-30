@@ -1,9 +1,9 @@
 """ Elliptic Curve Cryptography module """
 
 import base58
-from pyhdutils import hashutils
-from pyhdutils import ecutils
-from pyhdutils.networks import Network
+from pyhdwallet import hashutils
+from pyhdwallet import ecutils
+from pyhdwallet.networks import Network
 
 DEFAULT_NETWORK = Network.get_supported_networks()[0]
 

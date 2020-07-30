@@ -1,7 +1,7 @@
 import unittest
-from pyhdutils.ecpair import ECPair
-from pyhdutils.hashutils import sha256
-from pyhdutils.ecutils import ECSignature
+from pyhdwallet.ecpair import ECPair
+from pyhdwallet.hashutils import sha256
+from pyhdwallet.ecutils import ECSignature
 
 
 class TestECSignature(unittest.TestCase):
