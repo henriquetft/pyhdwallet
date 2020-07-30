@@ -2,6 +2,7 @@ import unittest
 import random
 import base58
 from pyhdutils.ecpair import ECPair
+from pyhdutils.hashutils import sha256
 from pyhdutils.networks import Network, BITCOIN_TESTNET
 
 unittest.TestLoader.sortTestMethodsUsing = None
@@ -142,6 +143,42 @@ class TestWIF(unittest.TestCase):
         ecpair = ECPair(None, pubkey_buffer=COMPRESSED_PUBKEY)
         with self.assertRaises(ValueError):
             ecpair.to_wif()
+
+
+class TestSignatures(unittest.TestCase):
+    def test_sign_verify_comp_mainnet(self):
+        wif = 'KzHvGCQJWGr3NT8L83Kpj6KK245QTKeXPy1jGV14LRWd1XA74Ngy'
+        self.assert_sign_verify(wif, b"I am Satoshi Nakamoto")
+
+    def test_sign_verify_comp_testnet(self):
+        wif = 'cRU6iqi2znWzj8Bo6onFqwBpSFJVm86ZH5onxaz7xAgJoJcaGJj4'
+        self.assert_sign_verify(wif, b"I am Satoshi Nakamoto")
+
+    def test_sign_verify_uncomp_mainnet(self):
+        wif = '5K7PxxsDjJFCwAVkMHfpyQjXR4PbeNbJWY6b2EgfMzymhVj6k1q'
+        self.assert_sign_verify(wif, b"I am Satoshi Nakamoto")
+
+    def test_sign_verify_uncomp_testnet(self):
+        wif = '92mz92fpCkevs6pK68N3Scf3gd5NHrnorE1YFLCk4LNVdpqA77j'
+        self.assert_sign_verify(wif, b"I am Satoshi Nakamoto")
+
+    def test_sign_verify_fail(self):
+        wif = 'L3ULUjNr4gfjcxFEJVo6bETbDvY6Z3wwU5oribqt692o9a5SHV2R'
+        wif2 = 'L3tJ46CAEaWr7YF5CZ6a1qg1cuhpeJEak5cr3esiVWA3To9PjWvn'
+        ecpair = ECPair.from_wif(wif)
+        ecpair2 = ECPair.from_wif(wif2)
+        buffer = sha256(b"I am Satoshi Nakamoto")
+        signature = ecpair.sign(buffer)
+        self.assertFalse(ecpair2.verify(buffer, signature))
+
+    def assert_sign_verify(self, wif, message):
+        ecpair = ECPair.from_wif(wif)
+        buffer = sha256(message)
+        wrong_message = message[1:]
+        signature = ecpair.sign(buffer)
+        self.assertTrue(ecpair.verify(buffer, signature))
+        self.assertFalse(ecpair.verify(sha256(wrong_message), signature))
+
 
 if __name__ == '__main__':
     unittest.main()

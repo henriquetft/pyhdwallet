@@ -159,6 +159,26 @@ class ECPair:
             self.network.pub_key_hash +
             hashutils.hash160(self.pubkey_buffer)).decode()
 
+    def sign(self, hash_buffer):
+        """
+        Sign a 32 byte hash and returns a signature
+        :param buffer: 32 byte buffer (as bytes)
+        :return: ECSignature object
+        """
+        if self.privkey is None:
+            raise Exception("A private key is needed for this operation")
+        ec_sig = ecutils.ECSignature.sign(self.privkey, hash_buffer)
+        return ec_sig
+
+    def verify(self, buffer, ec_signature):
+        """
+        Verify signature of a 32 byte buffer (as bytes)
+        :param buffer: 32 byte buffer (as bytes)
+        :param ec_signature: ECSignature object
+        :return: True if this signature is valid
+        """
+        return ec_signature.verify(self.pubkey_buffer, buffer)
+
     def __eq__(self, other):
         return self.privkey == other.privkey and \
                self.pubkey_buffer == other.pubkey_buffer and \
