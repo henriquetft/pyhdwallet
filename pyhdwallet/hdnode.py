@@ -10,6 +10,7 @@ from pyhdwallet.networks import Network
 from pyhdwallet.ecpair import ECPair
 
 # basic definitions
+DEFAULT_NETWORK = Network.get_supported_networks()[0]
 BITCOIN_SEED = "Bitcoin seed".encode()
 HARDENED_BIT = 0x80000000
 
@@ -185,7 +186,7 @@ class HDNode:
         return obj
 
     @classmethod
-    def from_seed(cls, seed_bytes, network):
+    def from_seed(cls, seed_bytes, network=DEFAULT_NETWORK):
         """
         Creates a new HDNode from a bip39 seed
 
