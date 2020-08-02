@@ -122,7 +122,7 @@ class TestHDNode(unittest.TestCase):
         self.assertIsInstance(self.hdnode_from_base58.get_keypair().pubkey_buffer, bytes)
 
     def test_abc(self):
-        with self.assertRaises(Exception):
+        with self.assertRaises(ValueError):
             HDNode.from_base58("4Q1JnNwEpCghKERZ8esUgQxtMpncJ5YUBJx75PGQ2nCJNGXGVEN1Me6KJ6zaXcczxWSg9DmyzLxXFkXSSwMSPY4WL4sDAer2Cifdhum6LCsHjRxm")
 
     def test_string(self):

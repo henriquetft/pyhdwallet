@@ -11,7 +11,7 @@ from pyhdwallet.ecpair import ECPair
 
 # basic definitions
 DEFAULT_NETWORK = Network.get_supported_networks()[0]
-BITCOIN_SEED = "Bitcoin seed".encode()
+BITCOIN_SEED = b"Bitcoin seed"
 HARDENED_BIT = 0x80000000
 
 
@@ -213,7 +213,7 @@ class HDNode:
         n = [x for x in Network.get_supported_networks() if
              version in [x.version_pub, x.version_priv]]
         if not n:
-            raise Exception("Network not supported")
+            raise ValueError("Network not supported")
         network = n[0]
         depth = buffer[4]
         parent_fingerprint = int.from_bytes(buffer[5:9], "big")

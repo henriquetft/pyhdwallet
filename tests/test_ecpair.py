@@ -141,7 +141,7 @@ class TestWIF(unittest.TestCase):
 
     def test_to_wif_no_privkey(self):
         ecpair = ECPair(None, pubkey_buffer=COMPRESSED_PUBKEY)
-        with self.assertRaises(ValueError):
+        with self.assertRaises(RuntimeError):
             ecpair.to_wif()
 
 
@@ -170,6 +170,14 @@ class TestSignatures(unittest.TestCase):
         buffer = sha256(b"I am Satoshi Nakamoto")
         signature = ecpair.sign(buffer)
         self.assertFalse(ecpair2.verify(buffer, signature))
+
+    def test_sign_no_privkey(self):
+        wif = 'KzHvGCQJWGr3NT8L83Kpj6KK245QTKeXPy1jGV14LRWd1XA74Ngy'
+        ecpair = ECPair.from_wif(wif)
+        neutered_ecpair = ECPair(None, ecpair.pubkey_buffer)
+        with self.assertRaises(RuntimeError):
+            neutered_ecpair.sign(sha256(b'test'))
+
 
     def assert_sign_verify(self, wif, message):
         ecpair = ECPair.from_wif(wif)

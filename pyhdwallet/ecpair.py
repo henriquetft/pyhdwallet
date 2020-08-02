@@ -142,7 +142,7 @@ class ECPair:
         """
         # WIF = base58check encode ([version byte][private key][checksum])
         if self.__privkey_buf is None:
-            raise ValueError("No private key")
+            raise RuntimeError("No private key")
         buffer = b''
         buffer += self.network.wif
         buffer += self.privkey_buffer
@@ -166,7 +166,7 @@ class ECPair:
         :return: ECSignature object
         """
         if self.privkey is None:
-            raise Exception("A private key is needed for this operation")
+            raise RuntimeError("A private key is needed for this operation")
         ec_sig = ecutils.ECSignature.sign(self.privkey, hash_buffer)
         return ec_sig
 

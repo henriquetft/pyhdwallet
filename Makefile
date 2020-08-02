@@ -1,9 +1,21 @@
 # Makefile for pyhdwallet
 
-.PHONY: test lint coverage
-
 PACKAGE=pyhdwallet
 RUNTEST=python -m unittest -b -v
+
+.PHONY: test lint coverage help
+
+.DEFAULT: help
+
+help:
+	@echo "Make targets for pyhdwallet:"
+	@echo
+	@echo "make test"
+	@echo "       run tests"
+	@echo "make coverage"
+	@echo "       run tests and show coverage report"
+	@echo "make lint"
+	@echo "       run pylint"
 
 test:
 	${RUNTEST}

@@ -9,7 +9,7 @@ concerning HD utilities.
 **Don't trust. Verify.**
 
 
-## Example
+## Sample Usage
 ```python
 >>> from binascii import unhexlify
 >>> from pyhdwallet import ECPair, HDNode
