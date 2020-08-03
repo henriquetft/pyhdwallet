@@ -1,7 +1,10 @@
 *.pyc
 __pycache__
+sphinx/_build/
 .atom
 .idea/
+dist/
+build/
 .project
 .coverage
 *.egg-info/

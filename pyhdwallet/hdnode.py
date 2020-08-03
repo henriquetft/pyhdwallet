@@ -37,6 +37,7 @@ class HDNode:
     def neutered(self):
         """
         Returns a new node without the private key. (Removes the privkey)
+
         :return: a neutered HDNode
         """
         pub_key_buffer = self.keypair.pubkey_buffer
@@ -48,6 +49,7 @@ class HDNode:
     def is_neutered(self):
         """
         Returns true if this object is neutered.
+
         :return: true if this object is neutered; false otherwise
         """
         return self.keypair.privkey is None
@@ -57,6 +59,7 @@ class HDNode:
         """
         Returns the extended key (xpriv or xpub) as a Base58Check string.
         (xpub if neutered; xpriv otherwise)
+
         :return: Extended key as Base58Check string
         """
         net = self.keypair.network
@@ -81,6 +84,7 @@ class HDNode:
     def get_address(self):
         """
         Returns a P2PKH address
+
         :return: Address as string (P2PKH address)
         """
         return self.keypair.get_address()
@@ -89,6 +93,7 @@ class HDNode:
         """ Returns the identifier.
         Extended keys can be identified by the Hash160 (RIPEMD160 after
         SHA256) of the serialized ECDSA public key K.
+
         :return: identifier
          """
         return hashutils.hash160(self.keypair.pubkey_buffer)
@@ -96,6 +101,7 @@ class HDNode:
     def get_fingerprint(self):
         """ Returns the fingerprint.
         The first 32 bits of the identifier are called the key fingerprint.
+
         :return: the fingerprint
         """
         return self.get_identifier()[:4]
@@ -116,7 +122,8 @@ class HDNode:
         if hardened:
             # hardened derivation
             if self.is_neutered():
-                raise ValueError("Neutered node cannot derive hardnened child")
+                raise RuntimeError(
+                    "Neutered node cannot derive hardnened child")
             buffer += b"\x00"
             buffer += self.keypair.privkey_buffer
             buffer += index.to_bytes(4, "big")
@@ -191,7 +198,7 @@ class HDNode:
         Creates a new HDNode from a bip39 seed
 
         :param seed_bytes: binary bip39 seed
-        :param network:
+        :param network: Network object
         :return: new HDNode object
         """
         h = hashutils.hmac_sha512(BITCOIN_SEED, seed_bytes)
@@ -203,6 +210,7 @@ class HDNode:
     def from_base58(cls, encoded):
         """
         Creates a new HDNode from a extended key (xpub/xpriv)
+
         :param encoded: a base58check string
         :return: a new HDNode object
         """

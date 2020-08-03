@@ -1,0 +1,614 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pyhdwallet package &#8212; pyhdwallet 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="pyhdwallet" href="modules.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="pyhdwallet"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">pyhdwallet 1.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">pyhdwallet</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">pyhdwallet package</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="pyhdwallet-package">
+<h1>pyhdwallet package<a class="headerlink" href="#pyhdwallet-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pyhdwallet.ecpair">
+<span id="pyhdwallet-ecpair-module"></span><h2>pyhdwallet.ecpair module<a class="headerlink" href="#module-pyhdwallet.ecpair" title="Permalink to this headline">¶</a></h2>
+<p>Elliptic Curve Cryptography module</p>
+<dl class="py class">
+<dt id="pyhdwallet.ecpair.ECPair">
+<em class="property">class </em><code class="sig-prename descclassname">pyhdwallet.ecpair.</code><code class="sig-name descname">ECPair</code><span class="sig-paren">(</span><em class="sig-param">privkey</em>, <em class="sig-param">pubkey_buffer=None</em>, <em class="sig-param">compressed=True</em>, <em class="sig-param">network=&lt;pyhdwallet.networks.Network object&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.ecpair.ECPair" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Elliptic Curve Cryptography key pair</p>
+<dl class="py method">
+<dt id="pyhdwallet.ecpair.ECPair.compressed">
+<em class="property">property </em><code class="sig-name descname">compressed</code><a class="headerlink" href="#pyhdwallet.ecpair.ECPair.compressed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether or not the public key is in compressed format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>True for compressed; False otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyhdwallet.ecpair.ECPair.from_wif">
+<em class="property">classmethod </em><code class="sig-name descname">from_wif</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">wif</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.ecpair.ECPair.from_wif" title="Permalink to this definition">¶</a></dt>
+<dd><p>Imports the private key from WIF format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>wif</strong> – private key as WIF (Wallet Import Format)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>New object containing the imported private key</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyhdwallet.ecpair.ECPair.get_address">
+<code class="sig-name descname">get_address</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.ecpair.ECPair.get_address" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts the public key to a bitcoin address (P2PKH address)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Address as string (P2PKH address)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyhdwallet.ecpair.ECPair.network">
+<em class="property">property </em><code class="sig-name descname">network</code><a class="headerlink" href="#pyhdwallet.ecpair.ECPair.network" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the network associated with this key pair.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Network object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyhdwallet.ecpair.ECPair.privkey">
+<em class="property">property </em><code class="sig-name descname">privkey</code><a class="headerlink" href="#pyhdwallet.ecpair.ECPair.privkey" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the private key as a 256 bit integer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>256 bit int secret</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyhdwallet.ecpair.ECPair.privkey_buffer">
+<em class="property">property </em><code class="sig-name descname">privkey_buffer</code><a class="headerlink" href="#pyhdwallet.ecpair.ECPair.privkey_buffer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the private key as bytes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>bytes object representing the private key</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyhdwallet.ecpair.ECPair.pubkey_buffer">
+<em class="property">property </em><code class="sig-name descname">pubkey_buffer</code><a class="headerlink" href="#pyhdwallet.ecpair.ECPair.pubkey_buffer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the public key (33 or 65 bytes)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>bytes object representing the public key</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyhdwallet.ecpair.ECPair.sign">
+<code class="sig-name descname">sign</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">hash_buffer</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.ecpair.ECPair.sign" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sign a 32 byte hash and returns a signature</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>buffer</strong> – 32 byte buffer (as bytes)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>ECSignature object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyhdwallet.ecpair.ECPair.to_wif">
+<code class="sig-name descname">to_wif</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.ecpair.ECPair.to_wif" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exports the private key as WIF (Wallet Import Format)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>string corresponding to the private Key as WIF</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyhdwallet.ecpair.ECPair.verify">
+<code class="sig-name descname">verify</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">buffer</span></em>, <em class="sig-param"><span class="n">ec_signature</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.ecpair.ECPair.verify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify signature of a 32 byte buffer (as bytes)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>buffer</strong> – 32 byte buffer (as bytes)</p></li>
+<li><p><strong>ec_signature</strong> – ECSignature object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if this signature is valid</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyhdwallet.ecutils">
+<span id="pyhdwallet-ecutils-module"></span><h2>pyhdwallet.ecutils module<a class="headerlink" href="#module-pyhdwallet.ecutils" title="Permalink to this headline">¶</a></h2>
+<p>Low level Elliptic Curve Functions</p>
+<dl class="py class">
+<dt id="pyhdwallet.ecutils.ECSignature">
+<em class="property">class </em><code class="sig-prename descclassname">pyhdwallet.ecutils.</code><code class="sig-name descname">ECSignature</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">r</span></em>, <em class="sig-param"><span class="n">s</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.ecutils.ECSignature" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>EC Signature</p>
+<dl class="py method">
+<dt id="pyhdwallet.ecutils.ECSignature.sign">
+<em class="property">classmethod </em><code class="sig-name descname">sign</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">secret</span></em>, <em class="sig-param"><span class="n">hash_buffer</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.ecutils.ECSignature.sign" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sign a message (hash) with the provided private key and returns the
+signature.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>secret</strong> – private key as 32-byte int</p></li>
+<li><p><strong>hash_buffer</strong> – Hash of the message as bytes</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>ECSignature object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyhdwallet.ecutils.ECSignature.verify">
+<code class="sig-name descname">verify</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pubkey_buffer</span></em>, <em class="sig-param"><span class="n">hash_buffer</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.ecutils.ECSignature.verify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify a digital signature.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pubkey_buffer</strong> – Public key as bytes</p></li>
+<li><p><strong>hash_buffer</strong> – hash of the message</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if this signature is valid</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyhdwallet.ecutils.combine_pubkeys">
+<code class="sig-prename descclassname">pyhdwallet.ecutils.</code><code class="sig-name descname">combine_pubkeys</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">secret</span></em>, <em class="sig-param"><span class="n">pubkey_buffer</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.ecutils.combine_pubkeys" title="Permalink to this definition">¶</a></dt>
+<dd><p>Combines the public keys.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>secret</strong> – private key (32-bytes int)</p></li>
+<li><p><strong>pubkey_buffer</strong> – public key compressed</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>bytes of compressed public key</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyhdwallet.ecutils.get_pubkey_from_privkey">
+<code class="sig-prename descclassname">pyhdwallet.ecutils.</code><code class="sig-name descname">get_pubkey_from_privkey</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">secret</span></em>, <em class="sig-param"><span class="n">compressed</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.ecutils.get_pubkey_from_privkey" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a compressed public key from a private key.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>secret</strong> – private key (32-bytes int)</p></li>
+<li><p><strong>compressed</strong> – get a compressed public key if true</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>public key as bytes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyhdwallet.ecutils.is_compressed_key">
+<code class="sig-prename descclassname">pyhdwallet.ecutils.</code><code class="sig-name descname">is_compressed_key</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pubkey_buffer</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.ecutils.is_compressed_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether or not a public key is compressed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pubkey_buffer</strong> – public keys as bytes obj.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>true if public key is compressed; false otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyhdwallet.hashutils">
+<span id="pyhdwallet-hashutils-module"></span><h2>pyhdwallet.hashutils module<a class="headerlink" href="#module-pyhdwallet.hashutils" title="Permalink to this headline">¶</a></h2>
+<p>Hash functions</p>
+<dl class="py function">
+<dt id="pyhdwallet.hashutils.hash160">
+<code class="sig-prename descclassname">pyhdwallet.hashutils.</code><code class="sig-name descname">hash160</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.hashutils.hash160" title="Permalink to this definition">¶</a></dt>
+<dd><p>RIPEMD-160 after SHA-256.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>ripemd160(sha256(data))</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyhdwallet.hashutils.hmac_sha512">
+<code class="sig-prename descclassname">pyhdwallet.hashutils.</code><code class="sig-name descname">hmac_sha512</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span></em>, <em class="sig-param"><span class="n">msg</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.hashutils.hmac_sha512" title="Permalink to this definition">¶</a></dt>
+<dd><p>HMAC using SHA-512.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> – </p></li>
+<li><p><strong>msg</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyhdwallet.hashutils.ripemd160">
+<code class="sig-prename descclassname">pyhdwallet.hashutils.</code><code class="sig-name descname">ripemd160</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.hashutils.ripemd160" title="Permalink to this definition">¶</a></dt>
+<dd><p>RIPEMD-160 hash function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyhdwallet.hashutils.sha256">
+<code class="sig-prename descclassname">pyhdwallet.hashutils.</code><code class="sig-name descname">sha256</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.hashutils.sha256" title="Permalink to this definition">¶</a></dt>
+<dd><p>SHA-256 hash function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyhdwallet.hdnode">
+<span id="pyhdwallet-hdnode-module"></span><h2>pyhdwallet.hdnode module<a class="headerlink" href="#module-pyhdwallet.hdnode" title="Permalink to this headline">¶</a></h2>
+<p>Module to deal with Hierarchical Deterministic (HD) tree according to BIP32
+specification (<a class="reference external" href="https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki">https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki</a>)</p>
+<dl class="py class">
+<dt id="pyhdwallet.hdnode.HDNode">
+<em class="property">class </em><code class="sig-prename descclassname">pyhdwallet.hdnode.</code><code class="sig-name descname">HDNode</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">keypair</span></em>, <em class="sig-param"><span class="n">chaincode</span></em>, <em class="sig-param"><span class="n">depth</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">index</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">parent_fingerprint</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.hdnode.HDNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A node from Hierarchical Deterministic (HD) tree.</p>
+<p>Each node has extended keys allowing derivation of children nodes</p>
+<dl class="py method">
+<dt id="pyhdwallet.hdnode.HDNode.derive">
+<code class="sig-name descname">derive</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">index</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.hdnode.HDNode.derive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Child Extended Key Derivation.
+Given the parent extended key and an index, computes the corresponding
+child extended key.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – index for derivation</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>HDNode child</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyhdwallet.hdnode.HDNode.derive_hardened">
+<code class="sig-name descname">derive_hardened</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">index</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.hdnode.HDNode.derive_hardened" title="Permalink to this definition">¶</a></dt>
+<dd><p>Child Extended Key Derivation. (hardened version)
+Given the parent extended key and an index, computes the corresponding
+child extended key.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – index for derivation</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>HDNode child</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyhdwallet.hdnode.HDNode.derive_path">
+<code class="sig-name descname">derive_path</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.hdnode.HDNode.derive_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Child Extended Key Derivation.
+Given the derivation path in the format m/x/x’ (e.g. m/0/1’/0) computes
+the corresponding child extended key.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – derivation path as string (e.g. m/0/1’/0)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>HDNode child</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyhdwallet.hdnode.HDNode.from_base58">
+<em class="property">classmethod </em><code class="sig-name descname">from_base58</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">encoded</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.hdnode.HDNode.from_base58" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new HDNode from a extended key (xpub/xpriv)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>encoded</strong> – a base58check string</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a new HDNode object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyhdwallet.hdnode.HDNode.from_seed">
+<em class="property">classmethod </em><code class="sig-name descname">from_seed</code><span class="sig-paren">(</span><em class="sig-param">seed_bytes</em>, <em class="sig-param">network=&lt;pyhdwallet.networks.Network object&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.hdnode.HDNode.from_seed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new HDNode from a bip39 seed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seed_bytes</strong> – binary bip39 seed</p></li>
+<li><p><strong>network</strong> – Network object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>new HDNode object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyhdwallet.hdnode.HDNode.get_address">
+<code class="sig-name descname">get_address</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.hdnode.HDNode.get_address" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a P2PKH address</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Address as string (P2PKH address)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyhdwallet.hdnode.HDNode.get_fingerprint">
+<code class="sig-name descname">get_fingerprint</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.hdnode.HDNode.get_fingerprint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the fingerprint.
+The first 32 bits of the identifier are called the key fingerprint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the fingerprint</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyhdwallet.hdnode.HDNode.get_identifier">
+<code class="sig-name descname">get_identifier</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.hdnode.HDNode.get_identifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the identifier.
+Extended keys can be identified by the Hash160 (RIPEMD160 after
+SHA256) of the serialized ECDSA public key K.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>identifier</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyhdwallet.hdnode.HDNode.get_keypair">
+<code class="sig-name descname">get_keypair</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.hdnode.HDNode.get_keypair" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the keypair</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyhdwallet.hdnode.HDNode.is_neutered">
+<code class="sig-name descname">is_neutered</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.hdnode.HDNode.is_neutered" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true if this object is neutered.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>true if this object is neutered; false otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyhdwallet.hdnode.HDNode.neutered">
+<code class="sig-name descname">neutered</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.hdnode.HDNode.neutered" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new node without the private key. (Removes the privkey)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a neutered HDNode</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyhdwallet.hdnode.HDNode.to_base58">
+<code class="sig-name descname">to_base58</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.hdnode.HDNode.to_base58" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the extended key (xpriv or xpub) as a Base58Check string.
+(xpub if neutered; xpriv otherwise)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Extended key as Base58Check string</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyhdwallet.networks">
+<span id="pyhdwallet-networks-module"></span><h2>pyhdwallet.networks module<a class="headerlink" href="#module-pyhdwallet.networks" title="Permalink to this headline">¶</a></h2>
+<p>Cryptocurrency network definitions</p>
+<dl class="py class">
+<dt id="pyhdwallet.networks.Network">
+<em class="property">class </em><code class="sig-prename descclassname">pyhdwallet.networks.</code><code class="sig-name descname">Network</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">description</span></em>, <em class="sig-param"><span class="n">version_priv</span></em>, <em class="sig-param"><span class="n">version_pub</span></em>, <em class="sig-param"><span class="n">pub_key_hash</span></em>, <em class="sig-param"><span class="n">wif</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.networks.Network" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represents a cryptocurrency network (e.g. Bitcoin Mainnet)</p>
+<dl class="py method">
+<dt id="pyhdwallet.networks.Network.get_supported_networks">
+<em class="property">classmethod </em><code class="sig-name descname">get_supported_networks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.networks.Network.get_supported_networks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the list of supported networks</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>list of supported networks</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyhdwallet.networks.Network.set_supported_networks">
+<em class="property">classmethod </em><code class="sig-name descname">set_supported_networks</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">network_list</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyhdwallet.networks.Network.set_supported_networks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets up the list of supported networks</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>network_list</strong> – New list of supported networks</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyhdwallet">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyhdwallet" title="Permalink to this headline">¶</a></h2>
+<p>Hierarchical Deterministic Wallets (BIP32) in python</p>
+</div>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">pyhdwallet package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-pyhdwallet.ecpair">pyhdwallet.ecpair module</a></li>
+<li><a class="reference internal" href="#module-pyhdwallet.ecutils">pyhdwallet.ecutils module</a></li>
+<li><a class="reference internal" href="#module-pyhdwallet.hashutils">pyhdwallet.hashutils module</a></li>
+<li><a class="reference internal" href="#module-pyhdwallet.hdnode">pyhdwallet.hdnode module</a></li>
+<li><a class="reference internal" href="#module-pyhdwallet.networks">pyhdwallet.networks module</a></li>
+<li><a class="reference internal" href="#module-pyhdwallet">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="modules.html"
+                        title="previous chapter">pyhdwallet</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/pyhdwallet.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="pyhdwallet"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">pyhdwallet 1.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >pyhdwallet</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">pyhdwallet package</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, henriquetft.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.2.
+    </div>
+  </body>
+</html>

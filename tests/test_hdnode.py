@@ -150,7 +150,7 @@ class TestHDNode(unittest.TestCase):
             self.hdnode_from_base58 = HDNode.from_base58("5FQT7TdYBPPpYJVsyfmdBw2e9wf8GtJnMToZf7Pun6LH5EAaa8KkQXGQQFygE2qWAdYzRiD7GPf8n1BmPGPVshLUazWMoacKhwaXH87u11ZfwM9TG")
 
     def test_derive_neutered_from_hardened(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(RuntimeError):
             self.hdnode_from_seed.derive(0).neutered().derive_hardened(1)
 
     def test_constructor_invalid_fingerprint(self):

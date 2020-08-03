@@ -6,7 +6,8 @@ import hmac
 
 def ripemd160(data):
     """
-    RIPEMD-160 hash function
+    RIPEMD-160 hash function.
+
     :param data:
     :return:
     """
@@ -15,7 +16,8 @@ def ripemd160(data):
 
 def sha256(data):
     """
-    SHA-256 hash function
+    SHA-256 hash function.
+
     :param data:
     :return:
     """
@@ -24,7 +26,8 @@ def sha256(data):
 
 def hash160(data):
     """
-    RIPEMD-160 after SHA-256
+    RIPEMD-160 after SHA-256.
+
     :param data:
     :return: ripemd160(sha256(data))
     """
@@ -33,7 +36,8 @@ def hash160(data):
 
 def hmac_sha512(key, msg):
     """
-    HMAC using SHA-512
+    HMAC using SHA-512.
+
     :param key:
     :param msg:
     :return:

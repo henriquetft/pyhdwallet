@@ -65,6 +65,7 @@ class ECPair:
     def pubkey_buffer(self):
         """
         Returns the public key (33 or 65 bytes)
+
         :return: bytes object representing the public key
         """
         if self.__pubkey_buf is None:
@@ -75,7 +76,8 @@ class ECPair:
     @property
     def privkey_buffer(self):
         """
-        Returns the private key as bytes
+        Returns the private key as bytes.
+
         :return: bytes object representing the private key
         """
         return self.__privkey_buf
@@ -83,7 +85,8 @@ class ECPair:
     @property
     def privkey(self):
         """
-        Returns the private key as a 256 bit integer
+        Returns the private key as a 256 bit integer.
+
         :return: 256 bit int secret
         """
         if self.__privkey_buf:
@@ -93,7 +96,8 @@ class ECPair:
     @property
     def network(self):
         """
-        Returns the network associated with this key pair
+        Returns the network associated with this key pair.
+
         :return: Network object
         """
         return self.__network
@@ -101,7 +105,8 @@ class ECPair:
     @property
     def compressed(self):
         """
-        Returns whether or not the public key is in compressed format
+        Returns whether or not the public key is in compressed format.
+
         :return: True for compressed; False otherwise
         """
         return self.__compressed
@@ -138,6 +143,7 @@ class ECPair:
     def to_wif(self):
         """
         Exports the private key as WIF (Wallet Import Format)
+
         :return: string corresponding to the private Key as WIF
         """
         # WIF = base58check encode ([version byte][private key][checksum])
@@ -153,6 +159,7 @@ class ECPair:
     def get_address(self):
         """
         Converts the public key to a bitcoin address (P2PKH address)
+
         :return: Address as string (P2PKH address)
         """
         return base58.b58encode_check(
@@ -162,6 +169,7 @@ class ECPair:
     def sign(self, hash_buffer):
         """
         Sign a 32 byte hash and returns a signature
+
         :param buffer: 32 byte buffer (as bytes)
         :return: ECSignature object
         """
@@ -173,6 +181,7 @@ class ECPair:
     def verify(self, buffer, ec_signature):
         """
         Verify signature of a 32 byte buffer (as bytes)
+
         :param buffer: 32 byte buffer (as bytes)
         :param ec_signature: ECSignature object
         :return: True if this signature is valid

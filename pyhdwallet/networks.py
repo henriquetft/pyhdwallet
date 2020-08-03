@@ -18,17 +18,19 @@ class Network:
     def get_supported_networks(cls):
         """
         Returns the list of supported networks
+
         :return: list of supported networks
         """
-        return cls.NETWORK_LIST
+        return cls.__NETWORK_LIST
 
     @classmethod
     def set_supported_networks(cls, network_list):
         """
         Sets up the list of supported networks
-        :param network_list:
+
+        :param network_list: New list of supported networks
         """
-        cls.NETWORK_LIST = network_list
+        cls.__NETWORK_LIST = network_list
 
     def __eq__(self, other):
         return self.description == other.description and \
