@@ -8,6 +8,9 @@ with open("README.md", "r") as fh:
 with open("pyhdwallet/__init__.py", encoding="utf8") as f:
     version = re.search(r'__version__\s*=\s*"(.*?)"', f.read()).group(1)
 
+with open('requirements.txt') as f:
+    requirements = f.read().splitlines()
+
 setuptools.setup(
     name="pyhdwallet",
     version=version,
@@ -22,6 +25,7 @@ setuptools.setup(
     keywords=["cryptocurrency", "bitcoin", "bip32", "python", "crypto",
               "wallet", "hierarchical-deterministic-wallets", "hdwallet",
               "bitcoincash"],
+    install_requires=requirements,
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: BSD License",

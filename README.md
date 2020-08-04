@@ -53,3 +53,6 @@ wif2: L1HZ6Vo7RJtXBzx75o2N2AhpXFVVuXVatqu6Xsy4iWNtmPphhJiz
 >>> print("signature valid:", ecpair.verify(sha256(b"Message"), signature))
 signature valid: True
 ```
+
+## Documentation
+See the [documentation](https://henriquetft.github.io/pyhdwallet/) for more info.

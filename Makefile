@@ -61,8 +61,8 @@ clean:
 	rm -f .coverage
 
 docs:
-	rm sphinx/modules.rst
-	rm sphinx/pyhdwallet.rst
+	rm -f sphinx/modules.rst
+	rm -f sphinx/pyhdwallet.rst
 	make -C sphinx clean
 	sphinx-apidoc -o ./sphinx . ./tests/* ./setup.py
 	make -C sphinx html
@@ -82,8 +82,8 @@ deps:
 upload-test: dist
 	${PYTHON} -m twine upload --repository testpypi dist/*
 
-install: dist
-	${PYTHON} -m pip install ./dist/${PROJECT}-*.tar.gz
+install: deps dist
+	${PYTHON} setup.py install
 
 upload: dist
 	${PYTHON} -m twine upload dist/*
